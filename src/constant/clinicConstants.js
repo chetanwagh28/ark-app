@@ -1,0 +1,39 @@
+/**
+ * importConstants
+ *
+ * @subpackage             fixture Constants
+ * @category               Constants
+ * @DateOfCreation         22 May 2018
+ * @ShortDescription       This is responsible for first Constants action names
+ */
+export const clinicConstants = {
+
+    //CLINIC_
+    CLINIC_REQUEST     : 'CLINIC_REQUEST',
+    CLINIC_SUCCESS     : 'CLINIC_SUCCESS',
+    CLINIC_FAILURE     : 'CLINIC_FAILURE',
+
+    //ADD_CLINIC_
+    ADD_CLINIC_REQUEST     : 'ADD_CLINIC_REQUEST',
+    ADD_CLINIC_SUCCESS     : 'ADD_CLINIC_SUCCESS',
+    ADD_CLINIC_FAILURE     : 'ADD_CLINIC_FAILURE',
+
+    //UPDATE_CLINIC
+    UPDATE_CLINIC_REQUEST     : 'UPDATE_CLINIC_REQUEST',
+    UPDATE_CLINIC_SUCCESS     : 'UPDATE_CLINIC_SUCCESS',
+    UPDATE_CLINIC_FAILURE     : 'UPDATE_CLINIC_FAILURE',
+
+    //DELETE_CLINIC
+    DELETE_CLINIC_REQUEST     : 'DELETE_CLINIC_REQUEST',
+    DELETE_CLINIC_SUCCESS     : 'DELETE_CLINIC_SUCCESS',
+    DELETE_CLINIC_FAILURE     : 'DELETE_CLINIC_FAILURE',
+
+    //STATUS_CLINIC
+    STATUS_CLINIC_REQUEST     : 'STATUS_CLINIC_REQUEST',
+    STATUS_CLINIC_SUCCESS     : 'STATUS_CLINIC_SUCCESS',
+    STATUS_CLINIC_FAILURE     : 'STATUS_CLINIC_FAILURE',
+
+    // Reset State
+    CLINIC_RESET_STATE      : 'CLINIC_RESET_STATE',
+    FIRST_UNAUTHENTICATE  		: 'FIRST_UNAUTHENTICATE',
+};

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="primary_dark">#000000</color>
+	<color name="status_bar_color">#f0f0f0</color>
+    <color name="splashscreen_bg">#000000</color>
+    <color name="app_bg">#000000</color>
+    <color name="splashscreen_text">#ffffff</color>
+    <color name="avark">#00B2B6</color>
+</resources>
