@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, FlatList, Image, Dimensions, TouchableOpacity, TouchableHighlight, ScrollView,StatusBar, BackHandler ,ImageBackground, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, Dimensions, TouchableOpacity, TouchableHighlight, ScrollView,StatusBar, BackHandler ,ImageBackground, useWindowDimensions, SafeAreaView } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { productActions, vendorActions, videoActions, adsActions } from '../action';
 import { connect } from 'react-redux';
@@ -7,13 +7,14 @@ import {LocalizationContext} from './Translations';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as Animatable from 'react-native-animatable';
-import { Container, Header, Content, Footer, FooterTab, Left, Body, Right, CardItem } from 'native-base';
-import Communications from 'react-native-communications';
+import { Rating, Slider, Header } from 'react-native-elements';
+// import { Container, Header, Content, Footer, FooterTab, Left, Body, Right, CardItem } from 'native-base';
+// import Communications from 'react-native-communications';
 import jwtdecode from 'jwt-decode'
 import {requestMultiple, PERMISSIONS, requestNotifications} from 'react-native-permissions';
-import Contacts from 'react-native-contacts';
+// import Contacts from 'react-native-contacts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SvgUri from 'react-native-svg-uri';
+// import SvgUri from 'react-native-svg-uri';
 import Carousel from 'react-native-snap-carousel';
 import LinearGradient from 'react-native-linear-gradient';
 import style from '../assets/style.js';
@@ -133,7 +134,7 @@ class DHomeScreen extends Component {
             break;
           case 'granted':
             console.log('The permission is granted Contact');
-            this.getContact()
+            // this.getContact()
             break;
           case 'blocked':
             console.log('The permission is denied and not requestable anymore');
@@ -190,7 +191,7 @@ class DHomeScreen extends Component {
 
     checkSOS = () => {
         if(this.state.userDetail !== null && this.state.userDetail.sos ){
-            Communications.phonecall(this.state.userDetail.sos, true)
+            // Communications.phonecall(this.state.userDetail.sos, true)
         }else{
             this.props.navigation.navigate('SOSScreen')    
         }
@@ -217,153 +218,149 @@ class DHomeScreen extends Component {
       }
 
       return (
-        <Container>
-          <Header style={style.appHeader}>
-            <Left style={{ flex:1,flexDirection:'row', justifyContent:'flex-start'}}>
-               <Icon name="menu" size={30} onPress={() => this.props.navigation.openDrawer()} color='#fff'/>
-            </Left>
-            <Body style={{ flex:1,flexDirection:'row', justifyContent:'center'}}>
-              <Title style={styles.headerTitleText}>Dashboard</Title>
-            </Body>
-            <Right style={{ flex:1, flexDirection:'row', justifyContent:'flex-end'}}>
-              <Icon name="notifications-sharp" size={35}  color="#ffffff"></Icon>
-              <MaterialCommunityIcons name="phone" size={35} backgroundColor="#00B2B6" color="red" onPress={this.checkSOS}></MaterialCommunityIcons>
-            </Right>
-            
-          </Header>
-          <Content style={style.container}>
-            <ScrollView>
-              <StatusBar backgroundColor='#00B2B6' barStyle="light-content"/>
-
-              {/*
+        <SafeAreaView style={{flex: 1}}>
+          <ImageBackground source={require("../assets/newimage/appdesignImgHome.png")} style={{ width: '100%', height: "15%" }}>
+            <Header backgroundColor="#00b2b6"
+              leftComponent={<>
+                      <Icon name="menu" size={25} color="#fff" onPress={() => this.props.navigation.openDrawer()}></Icon>
+                    </>}
+              centerComponent={<><Title style={style.PageTitle}>Dashboard</Title></>}
+              rightComponent={<View style={{ flex:1, flexDirection:'row', justifyContent:'flex-end'}}>
+                                <Icon name="notifications-sharp" size={35}  color="#ffffff"></Icon>
+                                <MaterialCommunityIcons name="phone" size={35} backgroundColor="#00B2B6" color="red" onPress={this.checkSOS}></MaterialCommunityIcons>
+                              </View>}
+            />
+          </ImageBackground>
+          <ScrollView>
+            <StatusBar backgroundColor='#00B2B6' barStyle="light-content"/>
+            {/*
               <News 
                 ITEM_WIDTH= {ITEM_WIDTH}
                 ITEM_HEIGHT= {ITEM_HEIGHT}
                 SLIDER_WIDTH= {SLIDER_WIDTH}
               />
-              */}
-              <View >
-                <Carousel
-                  // ref={(c) => this.carousel = c}
-                  data={carouselItems}
-                  renderItem={this._renderItem}
-                  sliderWidth={SLIDER_WIDTH}
-                  itemWidth={ITEM_WIDTH}
-                  containerCustomStyle={styles.carouselContainer}
-                  inactiveSlideShift={0}
-                  onSnapToItem={(index) => this.setState({ index })}
-                  useScrollView={true}          
-                />
-                {/*<SvgUri
-                  width="200"
-                  height="200"
-                  source={market2}
-                />*/}
-              </View>
+            */}
+            <View >
+              <Carousel
+                // ref={(c) => this.carousel = c}
+                data={carouselItems}
+                renderItem={this._renderItem}
+                sliderWidth={SLIDER_WIDTH}
+                itemWidth={ITEM_WIDTH}
+                containerCustomStyle={styles.carouselContainer}
+                inactiveSlideShift={0}
+                onSnapToItem={(index) => this.setState({ index })}
+                useScrollView={true}          
+              />
+              {/*<SvgUri
+                width="200"
+                height="200"
+                source={market2}
+              />*/}
+            </View>
 
+            <View style={styles.newhead}>
+              <View style={{width: "85%", textAlign:'flex-start', justifyContent: 'flex-start'}}><Text style={{color: '#FFF', fontSize:18, fontWeight: 'bold', marginTop:10}}>Appointment Request / Record</Text></View>  
+              <View ><Image style={{width:50, height:50}} resizeMode={'center'} source={Clinic} /></View>
+            </View>  
+
+            <View>
+                <FlatList  
+                    data={data}  
+                    renderItem={({item}) => 
+                          <TouchableOpacity onPress={() => this.props.navigation.navigate(item.route, { categroy: item.name})}>
+                            <Animatable.View>
+                            <Card style={styles.categroyCardH}>
+                              <View>
+                                {item.key !== 'Video' ?
+                                  <Image style={styles.cardIconH} resizeMode={'center'} source={item.image} />
+                                  :
+                                  <Icon name="videocam" size={100} color='#00B2B6'/>
+                                }
+                              </View>                     
+                              <View>
+                                <Text style={styles.titleViewMain}>{item.name}</Text>
+                              </View>
+                            </Card>
+                              </Animatable.View>
+                          </TouchableOpacity>
+                    }  
+                    horizontal={true}
+                />  
+            </View>
+
+            <TouchableOpacity>  
               <View style={styles.newhead}>
-                <View style={{width: "85%", textAlign:'flex-start', justifyContent: 'flex-start'}}><Text style={{color: '#FFF', fontSize:18, fontWeight: 'bold', marginTop:10}}>Appointment Request / Record</Text></View>  
-                <View ><Image style={{width:50, height:50}} resizeMode={'center'} source={Clinic} /></View>
-              </View>  
-
-              <View>
-                  <FlatList  
-                      data={data}  
-                      renderItem={({item}) => 
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate(item.route, { categroy: item.name})}>
-                              <Animatable.View>
-                              <Card style={styles.categroyCardH}>
-                                <View>
-                                  {item.key !== 'Video' ?
-                                    <Image style={styles.cardIconH} resizeMode={'center'} source={item.image} />
-                                    :
-                                    <Icon name="videocam" size={100} color='#00B2B6'/>
-                                  }
-                                </View>                     
-                                <View>
-                                  <Text style={styles.titleViewMain}>{item.name}</Text>
-                                </View>
-                              </Card>
-                                </Animatable.View>
-                            </TouchableOpacity>
-                      }  
-                      horizontal={true}
-                  />  
+                <View style={{width: "80%" }}><Image style={{width:50, height:50}} resizeMode={'center'} source={shop} /></View>
+                <View style={{}}><Text style={{color: '#FFF', fontSize:18, fontWeight: 'bold', marginTop:10}}>Products</Text></View>  
               </View>
-
-              
-              <TouchableOpacity>  
-                <View style={styles.newhead}>
-                  <View style={{width: "80%" }}><Image style={{width:50, height:50}} resizeMode={'center'} source={shop} /></View>
-                  <View style={{}}><Text style={{color: '#FFF', fontSize:18, fontWeight: 'bold', marginTop:10}}>Products</Text></View>  
-                </View>
-              </TouchableOpacity>
-              <View>
-                 <FlatList  
-                        data={this.props.catProducts}  
-                        renderItem={({item}) =>  {
-                          return(
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('InHouseProductScreen', { product_id: item.id, product_name: item.label })}> 
-                              <Animatable.View animation="fadeInRight"> 
-                              <Card style={styles.categroyCardH}>
-                                <View>
-                                  {item.image ?
-                                    <Image style={styles.cardIconH} resizeMode={'center'} source={{uri: utilityHelper.ProfilePic(item.image)}} />
-                                    :
-                                    <Image style={styles.cardIconH} resizeMode={'center'} source={{uri: 'data:image/png;base64,'+ item.image}} />
-                                  }
-                                </View>                     
-                                <View>
-                                  <Text style={styles.titleViewMain}>{item.label}</Text>
-                                </View>
-                              </Card>
-                              </Animatable.View> 
-                            </TouchableOpacity>  
-                          )
-                        }
-                        }    
-                        horizontal={true}
-                    />  
-              </View>      
-              
-              <View style={styles.newhead}>
-                <View style={{width: "85%", textAlign:'flex-start', justifyContent: 'flex-start'}}><Text style={{color: '#FFF', fontSize:18, fontWeight: 'bold', marginTop:10}}>Best Deals</Text></View>  
-                <View ><Image style={{width:50, height:50}} resizeMode={'center'} source={shop} /></View>
-              </View>  
-              
-              <View>
-                  <FlatList  
-                      data={this.props.vendorCat}
+            </TouchableOpacity>
+            <View>
+               <FlatList  
+                      data={this.props.catProducts}  
                       renderItem={({item}) =>  {
-                         return( 
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('VendorList', {
-                                  category_id: item.id,
-                                  name: item.name
-                                  })}> 
-                                <Animatable.View>
-                                 <Card style={styles.categroyCardH}>
-                                   <View>
-                                      <Image style={styles.cardIconH} resizeMode={'center'} source={{uri: utilityHelper.ProfilePic(item.image)}} />
-                                   </View>
-                                   <View>
-                                     <Text style={styles.titleViewMain}>{item.name}</Text>
-                                   </View>
-                                 </Card>
-                                </Animatable.View>
-                              </TouchableOpacity>) 
-                           }
+                        return(
+                          <TouchableOpacity onPress={() => this.props.navigation.navigate('InHouseProductScreen', { product_id: item.id, product_name: item.label })}> 
+                            <Animatable.View animation="fadeInRight"> 
+                            <Card style={styles.categroyCardH}>
+                              <View>
+                                {item.image ?
+                                  <Image style={styles.cardIconH} resizeMode={'center'} source={{uri: utilityHelper.ProfilePic(item.image)}} />
+                                  :
+                                  <Image style={styles.cardIconH} resizeMode={'center'} source={{uri: 'data:image/png;base64,'+ item.image}} />
+                                }
+                              </View>                     
+                              <View>
+                                <Text style={styles.titleViewMain}>{item.label}</Text>
+                              </View>
+                            </Card>
+                            </Animatable.View> 
+                          </TouchableOpacity>  
+                        )
+                      }
                       }    
                       horizontal={true}
-                      ListEmptyComponent={(<Card style={styles.containerCard1}>
-                                                <CardItem  header>
-                                                  <Text style={{textAlign: 'center'}}> Coming Soon....</Text>
-                                                </CardItem>
-                                            </Card>)}
-                  />    
-                </View>
-            </ScrollView>
-          </Content>
-        </Container>
+                  />  
+            </View>
+
+            <View style={styles.newhead}>
+              <View style={{width: "85%", textAlign:'flex-start', justifyContent: 'flex-start'}}><Text style={{color: '#FFF', fontSize:18, fontWeight: 'bold', marginTop:10}}>Best Deals</Text></View>  
+              <View ><Image style={{width:50, height:50}} resizeMode={'center'} source={shop} /></View>
+            </View>  
+            
+            <View>
+                <FlatList  
+                    data={this.props.vendorCat}
+                    renderItem={({item}) =>  {
+                       return( 
+                              <TouchableOpacity onPress={() => this.props.navigation.navigate('VendorList', {
+                                category_id: item.id,
+                                name: item.name
+                                })}> 
+                              <Animatable.View>
+                               <Card style={styles.categroyCardH}>
+                                 <View>
+                                    <Image style={styles.cardIconH} resizeMode={'center'} source={{uri: utilityHelper.ProfilePic(item.image)}} />
+                                 </View>
+                                 <View>
+                                   <Text style={styles.titleViewMain}>{item.name}</Text>
+                                 </View>
+                               </Card>
+                              </Animatable.View>
+                            </TouchableOpacity>) 
+                         }
+                    }    
+                    horizontal={true}
+                    ListEmptyComponent={(<Card style={styles.containerCard1}>
+                                              <Card.Content  header>
+                                                <Text style={{textAlign: 'center'}}> Coming Soon....</Text>
+                                              </Card.Content>
+                                          </Card>)}
+                />    
+              </View>
+
+          </ScrollView>
+        </SafeAreaView>
       )
     }
 }

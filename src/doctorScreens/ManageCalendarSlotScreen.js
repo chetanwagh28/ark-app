@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, Alert, ActivityIndicator, Switch, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, Alert, ActivityIndicator, Switch, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Avatar, Button, Card, Title, Paragraph,List } from 'react-native-paper';
-import { Rating, Slider } from 'react-native-elements';
+import { Rating, Slider, Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 import {clinicActions, clinicSlotActions } from '../action';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
-import Communications from 'react-native-communications';
-import { Container, Header, Content, Footer, FooterTab, Left, Body, Right, CardItem } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import jwtdecode from 'jwt-decode'
 import { color } from 'react-native-reanimated';
@@ -18,7 +16,6 @@ import {utilityHelper} from '../helper/utilityHelper'
 
 
 
-const Item = Picker.Item;
 class ManageCalendarSlot extends Component {
 
     constructor(props){
@@ -62,6 +59,7 @@ class ManageCalendarSlot extends Component {
     }
 
     getClinicSlot = (clinic_id) => {
+      console.log("=======================")
         this.setState({clinic_id: clinic_id});
         let data = {
                   clinic_id: clinic_id,
@@ -145,7 +143,7 @@ class ManageCalendarSlot extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
-      // // console.log("nextProps",nextProps.timeSlot)
+      // console.log("nextProps",nextProps)
         if(nextProps.timeSlot){
             this.setState({clinicSlotManage: nextProps.clinicSlotManage})            
             const { dispatch } = this.props;
@@ -203,44 +201,38 @@ class ManageCalendarSlot extends Component {
         //    currentDate = new Date(newDate);
         // }
 
-        // // console.log(this.state.selectDateData)
+        // console.log(this.props.clinicList)
       return (
-        <Container>
-          <Header style={style.appHeader}>
-            <Left style={{ flex:1, flexDirection:'row', justifyContent:'flex-start'}}>
-               <Icon name="ios-arrow-back" size={25} backgroundColor="#00B2B6" color="#fff" onPress={() => goBack()}></Icon>
-            </Left>
-            <Body style={{ flex:2, flexDirection:'row', justifyContent:'center',alignItems:'center'}}>
-              <Title style={styles.logoText}>Manage Calendar</Title>
-            </Body>
-            <Right style={{ flex:1, flexDirection:'row', justifyContent:'flex-end'}}>
-            </Right>   
-          </Header>
-
-          <Content style={style.container}>
-            <ScrollView>
+        <SafeAreaView style={style.container}>
+          <Header backgroundColor="#00b2b6"
+              leftComponent={<>
+                      <Icon name="ios-arrow-back" size={25} color="#fff" onPress={() => goBack()}></Icon>
+                    </>}
+              centerComponent={<><Title style={style.PageTitle}>Manage Calendar</Title></>}
+              rightComponent={<></>}
+            />
+            
               <View style={styles.containerView}>
-                <View style={style.dropdown}>
-                   <Picker
-                        style={{ height: 30, width: "100%" }}
-                        itemTextStyle={{fontSize: 8}}
-                        activeItemTextStyle={{fontSize: 10, fontWeight: 'bold'}}
-                        iosHeader="Clinic List"
-                        placeholder="Clinic List"
-                        selectedValue={clinic_id}
-                        mode="dialog"
-                        onValueChange={(clinic_id) => this.getClinicSlot(clinic_id)} >
-                        <Picker.Item label="Select Clinic" value="" />
-                        {this.props.clinicList.length > 0 && this.props.clinicList.map((row) => { 
-                            return (<Picker.Item label={row.clinic_name} value={row.id} />)
-                          })
-                        }
-                    </Picker>
-                </View> 
+
+                  <Picker
+                      style={{ height: 30, width: "100%", color:'grey', fontWeight: 'bold' }}
+                      itemTextStyle={{fontSize: 8}}
+                      activeItemTextStyle={{fontSize: 8, fontWeight: 'bold'}}
+                      iosHeader="Clinic List"
+                      placeholder="Clinic List"
+                      selectedValue={clinic_id}
+                      mode="dropdown"
+                      onValueChange={(clinic_id) => this.getClinicSlot(clinic_id)} >
+                      <Picker.Item label="Select Clinic" value="" key={0}/>
+                      {this.props.clinicList.length > 0 && this.props.clinicList.map((row) => { 
+                          return (<Picker.Item label={row.clinic_name} value={row.id} key={row.id} />)
+                        })
+                      }
+                  </Picker>
                 {this.state.days.length > 0 &&
-                  <View>
-                      <Card style={styles.customCard}>  
-                        <Card.Content>  
+                  <ScrollView>
+                      <Card>  
+                        <Card.Content style={styles.customCard}>  
                           <Text  style={{textAlign:'center',marginBottom:10,fontWeight:'bold'}}>Select Date / Day</Text>
 
                           <View style={{ flexDirection: 'row', justifyContent:'space-between',marginLeft:15 }}>
@@ -271,11 +263,8 @@ class ManageCalendarSlot extends Component {
                                 />  
                           </View>
                         </Card.Content>  
-                      </Card>
-
-
-                      <Card style={styles.customCardSlotInterval}>  
-                        <Card.Content> 
+                      
+                        <Card.Content style={styles.customCardSlotInterval}> 
                             <View style={{ flexDirection: 'row', justifyContent:'space-between'}}>
                               <Text  style={{marginTop:10}}>Change Status of date: {utilityHelper.DateFormat(date)} </Text>
                               {selectDateData !== '' && 
@@ -290,10 +279,8 @@ class ManageCalendarSlot extends Component {
                             </View>
                         </Card.Content>  
                       </Card>
-                       
-
-                      <Card style={styles.cardListView}>  
-                        <Card.Content> 
+                      <Card>
+                        <Card.Content style={styles.cardListView}> 
                             <Text  style={{textAlign:'center',marginBottom:10,fontWeight:'bold', padding: 5}}>Update Your Availability</Text>
                               
                               <FlatList  
@@ -320,9 +307,9 @@ class ManageCalendarSlot extends Component {
                                       }}
 
                                     ListEmptyComponent={(<Card style={styles.containerCard1}>
-                                                  <CardItem  header>
+                                                  <Card.Content  header>
                                                     <Text style={{textAlign: 'center'}}>  No Data found.</Text>
-                                                  </CardItem>
+                                                  </Card.Content>
                                               </Card>)}
                                 />
                                 <FlatList  
@@ -348,12 +335,16 @@ class ManageCalendarSlot extends Component {
                                       }}
 
                                     ListEmptyComponent={(<Card style={styles.containerCard1}>
-                                                  <CardItem  header>
+                                                  <Card.Content  header>
                                                     <Text style={{textAlign: 'center'}}>  No Data found.</Text>
-                                                  </CardItem>
+                                                  </Card.Content>
                                               </Card>)}
                                 />
-                              {this.state.clinicSlotManage.length > 0 &&
+                              
+                        </Card.Content>  
+                        
+                        <Card.Actions>  
+                          {this.state.clinicSlotManage.length > 0 &&
                                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                                   <TouchableOpacity
                                     onPress={() => this.slotStatusChange('active')}
@@ -380,17 +371,14 @@ class ManageCalendarSlot extends Component {
 
                                 </View>
                               }
-                        </Card.Content>  
+                        </Card.Actions>  
+
+
                       </Card>
-                  </View> 
+                  </ScrollView> 
                 }
-              </View> 
-            </ScrollView>
-            <View style={styles.loading}>
-              <ActivityIndicator size='large' color="#00B2B6" animating={false} />
-            </View>
-          </Content>
-        </Container>
+              </View>
+        </SafeAreaView>
       );
     }
 }

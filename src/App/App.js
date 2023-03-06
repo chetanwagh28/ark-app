@@ -77,9 +77,13 @@ import ProductDetailScreen from '../screens/ProductDetailScreen';
 import HelpAndSupport from '../screens/helpAndSupport';
 import MYCodeList from '../screens/MYCodeList';
 
+
+import { DDrawerContent } from '../doctorScreens/DrawerContent';
+import DMainTabScreen from '../doctorScreens/MainTabScreen';
+
 const Drawer = createDrawerNavigator();
 
-export const navigationRef = createNavigationContainerRef();
+const navigationRef = createNavigationContainerRef();
 
 
 const App = () => {
@@ -653,15 +657,18 @@ const App = () => {
                         <Drawer.Screen name="MyAppointment" component={MyAppointment} />
                         <Drawer.Screen name="MyMedicineOrder" component={MyMedicineOrder} />
                         <Drawer.Screen name="MyPrescription" component={MyPrescription} />
+                        <Drawer.Screen name="ReferedByDoctor" component={ReferedByDoctor} />
+
+                        <Drawer.Screen name="HealthTipsScreen" component={HealthTipsScreen} />
+                        <Drawer.Screen name="HealthTipsDetailScreen" component={HealthTipsDetailScreen} />
+                        
                         <Drawer.Screen name="InviteFriends" component={InviteFriends} />
                         <Drawer.Screen name="Wallet" component={Wallet} />
                         <Drawer.Screen name="Setting" component={Setting} />
                         <Drawer.Screen name="ChangePassword" component={ChangePassword} />
-                        <Drawer.Screen name="ReferedByDoctor" component={ReferedByDoctor} />
                         <Drawer.Screen name="HelpAndSupport" component={HelpAndSupport}/>
+
                         <Drawer.Screen name="SOSScreen" component={SOSScreen} />
-                        <Drawer.Screen name="HealthTipsScreen" component={HealthTipsScreen} />
-                        <Drawer.Screen name="HealthTipsDetailScreen" component={HealthTipsDetailScreen} />
                         <Drawer.Screen name="VendorList" component={VendorList} />
                         <Drawer.Screen name="BestDeal" component={BestDeal} />
                         <Drawer.Screen name="BestDealDetailScreen" component={BestDealDetailScreen} />
@@ -672,8 +679,35 @@ const App = () => {
                         
                       </Drawer.Navigator>
                     )
-                  :
-                    <RootStackScreen fcmToken={fcmToken}/>
+                  : loginState.userRole == 1 && 
+                    (
+                      <Drawer.Navigator drawerContent={props => <DDrawerContent {...props} userData={userData}/>}
+                        drawerType={isLargeScreen ? 'back' : 'back'}
+                        drawerStyle={isLargeScreen ? null : { width: '80%' }}
+                        overlayColor="transparent"
+                        screenOptions={{
+                          headerShown: false
+                        }}
+                      >                    
+                        <Drawer.Screen name="HomeDrawer" component={DMainTabScreen}/>
+
+                        <Drawer.Screen name="InviteFriends" component={InviteFriends} />
+                        <Drawer.Screen name="Wallet" component={Wallet} />
+                        <Drawer.Screen name="Setting" component={Setting} />
+                        <Drawer.Screen name="ChangePassword" component={ChangePassword} />
+                        <Drawer.Screen name="HelpAndSupport" component={HelpAndSupport}/>
+                        
+                        <Drawer.Screen name="SOSScreen" component={SOSScreen} />
+                        <Drawer.Screen name="VendorList" component={VendorList} />
+                        <Drawer.Screen name="BestDeal" component={BestDeal} />
+                        <Drawer.Screen name="BestDealDetailScreen" component={BestDealDetailScreen} />
+
+                        <Drawer.Screen name="InHouseProductScreen" component={InHouseProductScreen} />
+                        <Drawer.Screen name="ProductDetailScreen" component={ProductDetailScreen} />
+                        <Drawer.Screen name="MYCodeList" component={MYCodeList} />
+                        
+                      </Drawer.Navigator>
+                    )
                 :
                 <RootStackScreen fcmToken={fcmToken}/>
           }

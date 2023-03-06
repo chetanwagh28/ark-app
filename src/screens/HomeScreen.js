@@ -611,7 +611,7 @@ const HomeScreen = ({props, navigation}) => {
           </View>
         )}
 
-        <TouchableOpacity
+        {/*<TouchableOpacity
           onPress={() =>
             navigation.navigate('UploadMedicalPrescription', {
               medicalDetail: '',
@@ -638,11 +638,19 @@ const HomeScreen = ({props, navigation}) => {
               </Text>
             </View>
           </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('FindLab')}>
+        </TouchableOpacity>*/}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('FindLab')}
+          >
           <View style={styles.newhead}>
-            <View style={{width: '85%'}}>
+            <View style={{width: '55%'}}>
+              <Image
+                style={{width: 50, height: 50}}
+                resizeMode={'center'}
+                source={{uri: pathology}}
+              />
+            </View>
+            <View style={{}}>
               <Text
                 style={{
                   color: '#FFF',
@@ -653,26 +661,12 @@ const HomeScreen = ({props, navigation}) => {
                 {'Find Pathology'}
               </Text>
             </View>
-            <View style={{}}>
-              <Image
-                style={{width: 50, height: 50}}
-                resizeMode={'center'}
-                source={pathology}
-              />
-            </View>
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity >
           <View style={styles.newhead}>
-            <View style={{width: '75%'}}>
-              <Image
-                style={{width: 50, height: 50}}
-                resizeMode={'center'}
-                source={shop}
-              />
-            </View>
-            <View style={{}}>
+            <View style={{width: '85%'}}>
               <Text
                 style={{
                   color: '#FFF',
@@ -683,8 +677,16 @@ const HomeScreen = ({props, navigation}) => {
                 {translations.Products}
               </Text>
             </View>
+            <View style={{}}>
+              <Image
+                style={{width: 50, height: 50}}
+                resizeMode={'center'}
+                source={{uri: shop}}
+              />
+            </View>
           </View>
         </TouchableOpacity>
+
         <View>
           <LinearGradient
             colors={['#ffffff', '#ffffff', '#ffffff']}

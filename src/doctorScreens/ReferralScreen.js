@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Dimensions,ScrollView,StatusBar } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Dimensions,ScrollView,StatusBar,SafeAreaView } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { Avatar, Card, Title, TextInput, Paragraph, Button } from 'react-native-paper';
-import { Container, Header, Content, Footer, FooterTab, Left, Body, Tabs , Tab,Right, CardItem } from 'native-base';
+// import { Container, Header, Content, Footer, FooterTab, Left, Body, Tabs , Tab,Right, CardItem } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Rating, Header } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { Rating } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
 import { Badge } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import LinearGradient from 'react-native-linear-gradient';
-import Communications from 'react-native-communications';
 import {doctorActions} from '../action';
 import SkeletonLoader from '../components/SkeletonLoader';
 import {utilityHelper} from '../helper/utilityHelper'
@@ -78,23 +77,18 @@ class Referral extends Component {
     render() {
         const { goBack } = this.props.navigation;
       return (
-        <Container>
-          <Header style={style.appHeader} >
-            <Left style={{ flex:1,flexDirection:'row', justifyContent:'flex-start'}}>
-              <Icon name="ios-arrow-back" size={25} color="#ffffff" onPress={() => goBack()}></Icon>
-            </Left>
-            <Body style={{ flex:4,flexDirection:'row', justifyContent:'center'}}>
-              <Title style={styles.PageTitle}>Referral</Title>
-            </Body>
-            <Right style={{ flex:1, flexDirection:'row', justifyContent:'flex-end'}}>
-        
-            </Right>                     
-          </Header>
-          <Content style={style.container}>
-            <ScrollView>
+        <SafeAreaView style={style.container}>
+          <Header backgroundColor="#00b2b6"
+              leftComponent={<>
+                      <Icon name="ios-arrow-back" size={25} color="#fff" onPress={() => goBack()}></Icon>
+                    </>}
+              centerComponent={<><Title style={style.PageTitle}>Referral</Title></>}
+              rightComponent={<></>}
+            />
+            <ScrollView style={style.container}>
               <StatusBar backgroundColor='#00B2B6' barStyle="light-content"/>
                 <View style={styles.containerView}>
-                  <View style={style.dropdown}>
+                  <View>
                      <Picker
                           style={{ height: 30, width: "100%", color:'grey', fontWeight: 'bold' }}
                           itemTextStyle={{fontSize: 8}}
@@ -201,16 +195,15 @@ class Referral extends Component {
                         }
 
                         ListEmptyComponent={(<Card>
-                                                  <CardItem  header  style={style.containerCard1}>
-                                                    <Text style={{textAlign: 'center', color: '#fff'}}>  No Data Found.</Text>
-                                                  </CardItem>
+                                                  <Card.Content>
+                                                    <Text style={{textAlign: 'center', color: '#000'}}>  No Data Found.</Text>
+                                                  </Card.Content>
                                               </Card>)}
                     />  
                   </View>
                 </View> 
             </ScrollView>
-          </Content>
-        </Container>
+        </SafeAreaView>
       );
     }
 }

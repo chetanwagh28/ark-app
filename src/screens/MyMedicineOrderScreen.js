@@ -50,8 +50,7 @@ class MyMedicineOrder extends Component {
                         <Icon name="ios-arrow-back" size={25} color="#fff" onPress={() => goBack()}></Icon>
                       </>}
                 centerComponent={<><Title style={styles.logoText}>{translations['My_Order_Medicines']}</Title></>}
-                rightComponent={<>
-                  </>}
+                rightComponent={<></>}
               />
           <ScrollView >
             <View style={styles.containerView}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, useWindowDimensions, TouchableOpacity , Dimensions, ScrollView, SafeAreaView, ActivityIndicator, Alert } from 'react-native';
-import { Avatar, Card, Title, TextInput, Paragraph, RadioButton } from 'react-native-paper';
+import { Avatar, Card, Title, TextInput, Paragraph, RadioButton, Button } from 'react-native-paper';
 import {Picker} from '@react-native-picker/picker';
 import { Rating, Header } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -121,12 +121,12 @@ class ProductDetailScreen extends Component {
                   </>}
               />
               <ScrollView>
-                <View style={styles.containerView}>
+                <View>
                     {productDetail !== '' &&
-                      <Card style={styles.cardListView}>
-                        <Card.Cover  resizeMode="contain" source={{ uri: utilityHelper.ProfilePic(productDetail.product_image) }} />
-                        <Card.Title title={productDetail.product_name}/>
-                        <Card.Content style={{justifyContent:'center', alignItems:'center',}}>
+                      <Card>
+                        <Card.Cover  resizeMode="contain" source={{ uri: utilityHelper.ProfilePic(productDetail.product_image) }}/>
+                        <Card.Title title={productDetail.product_name} titleVariant={'titleMedium'} titleNumberOfLines={3}/>
+                        <Card.Content style={{padding: 5, margin: 5}}>
                             
                             <View style={{flexDirection:'column'}}>
                                 <Paragraph style={{fontSize: 14, color:'#000',marginTop:5}}>Price: Rs.<Text style={{ fontSize: 16, fontWeight: 'bold', textDecorationLine: 'line-through' }}>{productDetail.price}  </Text> 
@@ -181,7 +181,13 @@ class ProductDetailScreen extends Component {
                                 
 
                             </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10, marginBottom: 20 }}>
+                          </Card.Content>
+
+                          <Card.Actions>  
+                            <Button Press={() => this.addToKart()}>Add to cart</Button>
+                            <Button Press={() => this.buy()}>Buy</Button>
+                            
+                            {/*<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10, marginBottom: 20 }}>
                               <TouchableOpacity>
                                 <Btn textColor='black' bgColor={lightgreen} btnLabel={"Add to cart"} Press={() => this.addToKart()} width={120}/>
                               </TouchableOpacity>
@@ -189,8 +195,8 @@ class ProductDetailScreen extends Component {
                               <TouchableOpacity>
                                 <Btn textColor='black' bgColor={lightgreen} btnLabel={"Buy"} Press={() => this.buy()} width={120}/>
                               </TouchableOpacity>
-                            </View>
-                        </Card.Content>
+                            </View>*/}
+                          </Card.Actions>
                       </Card>
                     }
 
@@ -236,6 +242,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  postImage: {
+    width: '100%',
+    height: 500,
+  },
   logoText:{
     color:'#ffffff',
     textAlign:'center',
@@ -249,7 +259,9 @@ const styles = StyleSheet.create({
   },
   containerView: {
     margin: 0,
+    padding: 0,
     marginTop: 0,
+    width: '100%'
     // backgroundColor:'#ffffff'
   },
   searchHead:{
@@ -269,8 +281,8 @@ const styles = StyleSheet.create({
   },
   cardListView: {
     borderWidth: 0,
-    marginHorizontal:10,
-    marginVertical:10,
+    marginHorizontal:5,
+    marginVertical:5,
     alignItems: 'flex-start',
     height:'auto',
     backgroundColor: 'white',    
@@ -280,10 +292,11 @@ const styles = StyleSheet.create({
       width: 2,
       height: 2,
     },
+    width: width-10,
     shadowOpacity: 0.25,
     shadowRadius: 5.84,
     elevation: 5,
-    textAlign:'left',
+    // textAlign:'left',
     padding:5,
     borderRadius: 15,
     color:'#fff'

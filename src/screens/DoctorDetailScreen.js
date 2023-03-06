@@ -28,7 +28,7 @@ class DoctorDetail extends Component {
     constructor(props, context){
         super(props, context);
         this.state={
-            appointment_type: '',
+            appointment_type: 'cash',
             categroyKey: 'doctor',
             doctorDetail: '',
             video:0,
@@ -431,7 +431,7 @@ class DoctorDetail extends Component {
               <View><Icon name="ios-arrow-back" size={25} color="#fff" onPress={() => goBack()}></Icon></View>
               <View>
                 {doctorDetail.length > 0 ?
-                  <View style={{flexDirection:'row', alignItems: 'center'}}>
+                  <View style={{flexDirection:'row', alignItems: 'center', width: '100%'}}>
                       <View style={{flexDirection:'column', alignItems: 'center', marginRight: 10, marginTop: 40 }} >
                         <Text style={{color:'#fff', fontWeight:'bold', fontSize: 20}}>Dr. {doctorDetail[0].name}  </Text>  
                         <Text style={{color:'#fff', fontWeight:'400', fontSize: 18, alignItems: 'center'}}>{utilityHelper.EducationComma(doctorDetail[0].educational_qualification)}</Text>
@@ -516,10 +516,10 @@ class DoctorDetail extends Component {
                             </View>
                             */}
                             {doctorDetail[0].about && 
-                            <View style={{flexDirection:'row'}}>
-                              <Text style={{color:'#273f61', fontWeight:'bold', fontSize: 16}}>About:</Text>
-                              <Paragraph> {doctorDetail[0].about}</Paragraph>
-                            </View>
+                              <View style={{flexDirection:'row'}}>
+                                <Text style={{color:'#273f61', fontWeight:'bold', fontSize: 16}}>About:</Text>
+                                <Paragraph> {doctorDetail[0].about}</Paragraph>
+                              </View>
                             }           
                         </View>
                     
@@ -641,12 +641,12 @@ class DoctorDetail extends Component {
                      <Text  style={{marginTop:10,marginBottom:10,fontWeight:'bold', color: '#273f61', fontSize: 16}}>Select a Payment Method</Text>              
                      <View style={{ flexDirection: 'row', justifyContent: 'center', marginHorizontal: 5 }}>
 
-                        <TouchableOpacity onPress={() => this.checkPaymentOption('online')}>
+                        {/*<TouchableOpacity onPress={() => this.checkPaymentOption('online')}>
                           <LinearGradient colors={this.state.appointment_type === 'online' ? ['#273f61', '#273f61'] : ['#7AB3B7', '#ffffff', '#7AB3B7']}  style={[style.commonAppButton, styles.commonAppButtonRadio]}>
                             <Text style={this.state.appointment_type === 'online' ? styles.commonAppButtonSelectText  : styles.commonAppButtonSelectTextNot}>{translations['pay_now']} (Online)</Text>
                             
                           </LinearGradient>
-                        </TouchableOpacity> 
+                        </TouchableOpacity>*/} 
                         <TouchableOpacity onPress={() => this.checkPaymentOption('cash')}>
                           <LinearGradient colors={this.state.appointment_type === 'cash' ? ['#273f61', '#273f61'] : ['#7AB3B7', '#ffffff', '#7AB3B7']}  style={[style.commonAppButton, styles.commonAppButtonRadio]}>
                             <Text style={this.state.appointment_type === 'cash' ? styles.commonAppButtonSelectText  : styles.commonAppButtonSelectTextNot}>{"Pay at Clinic ("+translations['cash']+")"}</Text>

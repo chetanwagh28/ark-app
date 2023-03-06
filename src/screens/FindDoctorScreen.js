@@ -290,7 +290,7 @@ class FindDoctor extends Component {
 
                 </View>  
 
-                <View style={styles.listOfAllCards}>
+                <ScrollView style={styles.listOfAllCards}>
                   {this.props.loader && 
                       <SkeletonLoader />
                   }
@@ -361,7 +361,7 @@ class FindDoctor extends Component {
                                                 </Card.Content>
                                             </Card>)} 
                   />  
-                </View>
+                </ScrollView>
               </View> 
         </SafeAreaView>
       );
@@ -460,8 +460,8 @@ const styles = StyleSheet.create({
   listOfAllCards:{
     // paddingLeft:5,
     // paddingRight:5,
-    paddingTop:5,
-    paddingBottom:5
+    paddingVertical:5,
+    marginBottom: 10
   },
   cardListView: {
     borderWidth: 0,

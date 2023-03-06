@@ -60,29 +60,28 @@ class PatientProfileScreen extends Component {
     }
 	
 
-	getProfile = async() => {
-		let user_id = '';
-	    let userToken = null;
-	    try {
-	        userToken = await AsyncStorage.getItem('userToken');
-	        // // console.log(jwtdecode(userToken))
-	        user_id = jwtdecode(userToken).user_id
-	        const { dispatch } = this.props;
-        	dispatch(profileActions.getPatientProfile(user_id));
-	    } catch(e) {
-	        // console.log(e);
-	    }
-	}
+  	getProfile = async() => {
+  		let user_id = '';
+  	    let userToken = null;
+  	    try {
+  	        userToken = await AsyncStorage.getItem('userToken');
+  	        // // console.log(jwtdecode(userToken))
+  	        user_id = jwtdecode(userToken).user_id
+  	        const { dispatch } = this.props;
+          	dispatch(profileActions.getPatientProfile(user_id));
+  	    } catch(e) {
+  	        // console.log(e);
+  	    }
+  	}
 
-	componentDidMount(){
-    const { dispatch } = this.props;
-    dispatch(patientActions.getHealthProblem())
+  	componentDidMount(){
+      const { dispatch } = this.props;
+      dispatch(patientActions.getHealthProblem())
 
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
-		  this.getProfile()
-	  });
-	}
-
+      this._unsubscribe = this.props.navigation.addListener('focus', () => {
+  		  this.getProfile()
+  	  });
+  	}
 
     selectFile = () => {
       // // console.log("selectFile")
@@ -117,21 +116,29 @@ class PatientProfileScreen extends Component {
                 	const uri = response?.assets && response.assets[0].uri;
 
                 	let image = response.assets[0];
+                  let ext = image.type.split("/")
+                 
 
-                	
-			            let ext = image.type.split("/")
-                  // let image = response.assets[0].base64
+
+                  // const blob = new Blob([fileData], { type: "text/html" });
+                  // const url = URL.createObjectURL(blob);
+                  // const txtFile = new File([blob], "down.html", {type: "text/html"})
+
+
+                  let imagebase64 = response.assets[0].base64
 			            // console.log("image", uri.replace('file://', ''))
                 	const formData = new FormData();
 
-                	// formData.append('display_pic', {
-								  //   name: image.fileName,
-								  //   type: image.type,
-								  //   uri: uri.replace('file://', '')
-								  // });
+                	formData.append('display_pic', {
+								    name: image.fileName,
+								    type: image.type,
+								    uri: uri,
+                    image: imagebase64
+								  });
+			            formData.append('image_base', imagebase64);
 
-			            formData.append('display_pic', image.base64);
-			            formData.append('display_pic_ext', ext[1]);
+			            // formData.append('display_pic', image.base64);
+                  formData.append('display_pic_ext', ext[1]);
 			            this.setState({ display_image: uri, display_pic: ""});
 			            const { dispatch } = this.props;
 			            dispatch(profileActions.updatePatientProfile(formData));
